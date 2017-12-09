@@ -19,14 +19,12 @@ public class InstrumentationProxy extends Instrumentation {
 	 public static final String TAG = "InstrumentationProxy";
 
 	 private boolean hasHook = false;
-	 
-	 // ActivityThread里面原始的Instrumentation对象,这里千万不能写成mInstrumentation,这样写
-	 //抛出异常，已亲测试，所以这个地方就要注意了
-	 public Instrumentation oldInstrumentation;
+
+	 public Instrumentation target;
      
 	 //通过构造函数来传递对象
 	 public InstrumentationProxy(Instrumentation mInstrumentation) {
-		 oldInstrumentation = mInstrumentation;
+		 target = mInstrumentation;
 	 }
 
 
@@ -41,7 +39,7 @@ public class InstrumentationProxy extends Instrumentation {
 			 activity.finish();
              hasHook = true;
 		} else {
-			super.callActivityOnCreate(activity, icicle);
+			 target.callActivityOnCreate(activity, icicle);
 		}
 		 
 	}
